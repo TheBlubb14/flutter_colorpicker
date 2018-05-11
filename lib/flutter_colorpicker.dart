@@ -6,6 +6,17 @@ import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+class ColorW {
+  Color color;
+  double white;
+
+  ColorW(Color color, double white)
+  {
+    this.color = color;
+    this.white = white;
+  }
+}
+
 class ColorPicker extends StatefulWidget {
   ColorPicker(
       {@required this.pickerColor,
@@ -14,7 +25,7 @@ class ColorPicker extends StatefulWidget {
       this.pickerAreaHeightPercent: 1.0});
 
   final Color pickerColor;
-  final ValueChanged<Color> onColorChanged;
+  final ValueChanged<ColorW> onColorChanged;
   final bool enableLabel;
   final double pickerAreaHeightPercent;
 
@@ -51,7 +62,7 @@ class _ColorPickerState extends State<ColorPicker> {
     Color color =
         new HSVColor.fromAHSV(alphaLocked, hue, saturation, value).toColor();
     if (color != widget.pickerColor) {
-      widget.onColorChanged(color);
+      widget.onColorChanged(new ColorW(color, white));
     }
     switch (colorType) {
       case 'HEX':
