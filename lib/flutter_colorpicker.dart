@@ -11,13 +11,11 @@ class ColorPicker extends StatefulWidget {
       {@required this.pickerColor,
       @required this.onColorChanged,
       this.enableLabel: true,
-      this.colorPickerWidth: 300.0,
       this.pickerAreaHeightPercent: 1.0});
 
   final Color pickerColor;
   final ValueChanged<Color> onColorChanged;
   final bool enableLabel;
-  final double colorPickerWidth;
   final double pickerAreaHeightPercent;
 
   final double sliderPainterHeight = 13.0;
@@ -30,27 +28,28 @@ class _ColorPickerState extends State<ColorPicker> {
   double hue = 0.0;
   double saturation = 0.0;
   double value = 1.0;
-  double alpha = 1.0;
+  double white = 0.0;
+  double alphaLocked = 1.0;
 
   List<Map<String, List<String>>> colorTypes = [
     {
-      'HEX': ['R', 'G', 'B', 'A']
+      'HEX': ['R', 'G', 'B', 'W']
     },
     {
-      'RGB': ['R', 'G', 'B', 'A']
+      'RGB': ['R', 'G', 'B', 'W']
     },
     {
-      'HSL': ['H', 'S', 'L', 'A']
+      'HSL': ['H', 'S', 'L', 'W']
     },
   ];
   String colorType = 'HEX';
-  List<String> colorValue = ['FF', 'FF', 'FF', '100'];
+  List<String> colorValue = ['FF', 'FF', 'FF', '0'];
 
   Uint8List chessTexture = new Uint8List(0);
 
   getColorValue() {
     Color color =
-        new HSVColor.fromAHSV(alpha, hue, saturation, value).toColor();
+        new HSVColor.fromAHSV(alphaLocked, hue, saturation, value).toColor();
     if (color != widget.pickerColor) {
       widget.onColorChanged(color);
     }
@@ -60,7 +59,7 @@ class _ColorPickerState extends State<ColorPicker> {
           color.red.toRadixString(16).toUpperCase(),
           color.green.toRadixString(16).toUpperCase(),
           color.blue.toRadixString(16).toUpperCase(),
-          (alpha * 100).toInt().toString() + ' %'
+          (white * 100).toInt().toString() + ' %'
         ];
         break;
       case 'RGB':
@@ -68,7 +67,7 @@ class _ColorPickerState extends State<ColorPicker> {
           color.red.toString(),
           color.green.toString(),
           color.blue.toString(),
-          (alpha * 100).toInt().toString() + ' %'
+          (white * 100).toInt().toString() + ' %'
         ];
         break;
       case 'HSL':
@@ -86,7 +85,7 @@ class _ColorPickerState extends State<ColorPicker> {
           hue.toInt().toString(),
           (s * 100).round().toString() + ' %',
           (l * 100).round().toString() + ' %',
-          (alpha * 100).toInt().toString() + ' %'
+          (white * 100).toInt().toString() + ' %'
         ];
         break;
       default:
@@ -104,7 +103,7 @@ class _ColorPickerState extends State<ColorPicker> {
     hue = color.hue;
     saturation = color.saturation;
     value = color.value;
-    alpha = color.alpha;
+    // alpha = color.alpha;
     getColorValue();
     setState(() {});
   }
@@ -112,7 +111,6 @@ class _ColorPickerState extends State<ColorPicker> {
   @override
   Widget build(BuildContext context) {
     return new Container(
-      width: widget.colorPickerWidth,
       child: new Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -122,7 +120,7 @@ class _ColorPickerState extends State<ColorPicker> {
               return new Container(
                 // build color picker
                 width: box.maxWidth,
-                height: height,
+                // height: height,
                 child: new GestureDetector(
                   onPanUpdate: (DragUpdateDetails details) {
                     RenderBox getBox = context.findRenderObject();
@@ -164,7 +162,7 @@ class _ColorPickerState extends State<ColorPicker> {
                   borderRadius:
                       const BorderRadius.all(const Radius.circular(50.0)),
                   child: new Material(
-                    color: new HSVColor.fromAHSV(alpha, hue, saturation, value)
+                    color: new HSVColor.fromAHSV(alphaLocked, hue, saturation, value)
                         .toColor(),
                   ),
                 ),
@@ -252,7 +250,7 @@ class _ColorPickerState extends State<ColorPicker> {
                                 id: _SliderLayout.pointer,
                                 child: new Transform(
                                   transform: new Matrix4.identity()
-                                    ..translate(box.maxWidth * alpha),
+                                    ..translate(box.maxWidth * white),
                                   child: new CustomPaint(
                                     painter: new AlphaPointerPainter(),
                                   ),
@@ -272,7 +270,7 @@ class _ColorPickerState extends State<ColorPicker> {
                                             getBox.globalToLocal(
                                                 details.globalPosition);
                                         setState(() {
-                                          alpha = localOffset.dx
+                                          white = localOffset.dx
                                                   .clamp(0.0, box.maxWidth) /
                                               box.maxWidth;
                                           getColorValue();
