@@ -10,8 +10,7 @@ class ColorW {
   Color color;
   double white;
 
-  ColorW(Color color, double white)
-  {
+  ColorW(Color color, double white) {
     this.color = color;
     this.white = white;
   }
@@ -39,7 +38,7 @@ class _ColorPickerState extends State<ColorPicker> {
   double hue = 0.0;
   double saturation = 0.0;
   double value = 1.0;
-  double previousWhite = 0.0;
+  // double previousWhite = 0.0;
   double white = 0.0;
   double alphaLocked = 1.0;
 
@@ -62,10 +61,10 @@ class _ColorPickerState extends State<ColorPicker> {
   getColorValue() {
     Color color =
         new HSVColor.fromAHSV(alphaLocked, hue, saturation, value).toColor();
-    if (color != widget.pickerColor || white != previousWhite) {
-      previousWhite = white;
-      widget.onColorChanged(new ColorW(color, white));
-    }
+    // if (color != widget.pickerColor || white != previousWhite) {
+    // previousWhite = white;
+    widget.onColorChanged(new ColorW(color, white));
+    // }
     switch (colorType) {
       case 'HEX':
         colorValue = [
@@ -175,7 +174,8 @@ class _ColorPickerState extends State<ColorPicker> {
                   borderRadius:
                       const BorderRadius.all(const Radius.circular(50.0)),
                   child: new Material(
-                    color: new HSVColor.fromAHSV(alphaLocked, hue, saturation, value)
+                    color: new HSVColor.fromAHSV(
+                            alphaLocked, hue, saturation, value)
                         .toColor(),
                   ),
                 ),
