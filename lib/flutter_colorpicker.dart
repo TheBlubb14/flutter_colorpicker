@@ -23,7 +23,7 @@ class ColorPicker extends StatefulWidget {
       this.enableLabel: true,
       this.pickerAreaHeightPercent: 1.0});
 
-  final Color pickerColor;
+  final ColorW pickerColor;
   final ValueChanged<ColorW> onColorChanged;
   final bool enableLabel;
   final double pickerAreaHeightPercent;
@@ -61,10 +61,9 @@ class _ColorPickerState extends State<ColorPicker> {
   getColorValue() {
     Color color =
         new HSVColor.fromAHSV(alphaLocked, hue, saturation, value).toColor();
-    // if (color != widget.pickerColor || white != previousWhite) {
-    // previousWhite = white;
-    widget.onColorChanged(new ColorW(color, white));
-    // }
+    if (color != widget.pickerColor.color || white != widget.pickerColor.white) {
+      widget.onColorChanged(new ColorW(color, white));
+    }
     switch (colorType) {
       case 'HEX':
         colorValue = [
@@ -111,7 +110,7 @@ class _ColorPickerState extends State<ColorPicker> {
     String baseEncodedImage =
         'iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAIAAADZF8uwAAAAGUlEQVQYV2M4gwH+YwCGIasIUwhT25BVBADtzYNYrHvv4gAAAABJRU5ErkJggg==';
     chessTexture = BASE64.decode(baseEncodedImage);
-    HSVColor color = new HSVColor.fromColor(widget.pickerColor);
+    HSVColor color = new HSVColor.fromColor(widget.pickerColor.color);
     hue = color.hue;
     saturation = color.saturation;
     value = color.value;
