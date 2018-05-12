@@ -485,7 +485,7 @@ class AlphaPainter extends CustomPainter {
     Rect rect = Offset.zero & size;
     Gradient gradient = new LinearGradient(
       colors: [
-        Colors.black.withOpacity(1.0),
+        Colors.green.withOpacity(1.0),
         Colors.black.withOpacity(0.0),
       ],
     );
