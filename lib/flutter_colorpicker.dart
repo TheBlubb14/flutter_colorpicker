@@ -486,7 +486,7 @@ class AlphaPainter extends CustomPainter {
     Gradient gradient = new LinearGradient(
       colors: [
         Colors.green.withOpacity(1.0),
-        Colors.black.withOpacity(0.0),
+        Colors.green.withOpacity(0.0),
       ],
     );
     canvas.drawRect(rect, new Paint()..shader = gradient.createShader(rect));
@@ -504,7 +504,7 @@ class AlphaPointerPainter extends CustomPainter {
         ..addOval(
           new Rect.fromCircle(center: Offset.zero, radius: size.width * 1.8),
         ),
-      Colors.green,
+      Colors.black,
       4.0,
       true,
     );
@@ -512,7 +512,7 @@ class AlphaPointerPainter extends CustomPainter {
         new Offset(0.0, size.height * 0.4),
         size.height,
         new Paint()
-          ..color = Colors.red
+          ..color = Colors.white
           ..style = PaintingStyle.fill);
   }
 
