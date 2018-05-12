@@ -504,7 +504,7 @@ class AlphaPointerPainter extends CustomPainter {
         ..addOval(
           new Rect.fromCircle(center: Offset.zero, radius: size.width * 1.8),
         ),
-      Colors.black,
+      Colors.green,
       4.0,
       true,
     );
@@ -512,7 +512,7 @@ class AlphaPointerPainter extends CustomPainter {
         new Offset(0.0, size.height * 0.4),
         size.height,
         new Paint()
-          ..color = Colors.white
+          ..color = Colors.red
           ..style = PaintingStyle.fill);
   }
 
